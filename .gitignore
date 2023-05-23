@@ -1,0 +1,6 @@
+deno.lock
+.vscode
+
+.env
+.env.prod
+.env.dev
