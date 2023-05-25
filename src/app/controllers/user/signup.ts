@@ -68,6 +68,8 @@ export const UserSignUpRoute: Route = {
 
       const tokens = await getAccessTokens(createRes);
 
+      ctx.cookies.set('access-token', tokens.accessToken);
+
       return {
         status: 200,
         body: {
