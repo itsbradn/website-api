@@ -11,5 +11,5 @@ export interface Next {
 }
 
 export function isNext(object: Next | Response): object is Next {
-  return 'ctx' in object;
+  return (object as Next).ctx !== undefined;
 }
