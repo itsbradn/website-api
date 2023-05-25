@@ -1,5 +1,13 @@
-deno.lock
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 .vscode
+
+dist
 
 .env
 .env.prod

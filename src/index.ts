@@ -1,7 +1,11 @@
-import { Application, Router } from 'https://deno.land/x/oak@v12.4.0/mod.ts';
-import { AppController } from './app/controllers/app.ts';
+import Koa from 'koa';
+import Router from '@koa/router';
+import { AppController } from './app/controllers/app';
+import bodyParser from 'koa-bodyparser';
 
-const app = new Application();
+const app = new Koa();
+app.use(bodyParser({ enableTypes: ["json"]}));
+
 const router = new Router();
 
 AppController.loadRoutes(router);
@@ -9,4 +13,4 @@ AppController.loadRoutes(router);
 app.use(router.routes());
 
 
-await app.listen({ port: 8000 });
+app.listen({ port: 8000 });

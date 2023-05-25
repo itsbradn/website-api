@@ -1,13 +1,13 @@
-import { Route } from "../interfaces/route.ts";
+import { Route } from "../interfaces/route";
 
 export const IndexRoute: Route = {
   path: "/",
-  method: "GET",
+  method: "get",
   actions: [
     (_ctx) => {
       return {
         status: 200,
-        body: { message: "Hellow World!" },
+        body: { message: "Hello World!" },
       };
     },
   ],

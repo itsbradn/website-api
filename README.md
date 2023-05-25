@@ -3,7 +3,8 @@
 ## 🔧 Development
 
 ### Prerequisites
-- Deno 1.32.5
+- Yarn ^3.51
+- Node ^20.1.0
 
 Clone the repository and cd into it.
 ```
@@ -11,9 +12,14 @@ git clone https://github.com/itsbradn/website-api.git
 cd website
 ```
 
+Install yarn dependencies
+```
+yarn
+```
+
 Start development server at `localhost:8000`
 ```
-deno task dev
+yarn dev
 ```
 
 ✨ Congrats! You have a working development server

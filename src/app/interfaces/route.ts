@@ -1,33 +1,45 @@
-import { Body } from "https://deno.land/x/oak@v12.4.0/body.ts";
-import { Next, Response, isNext } from "./response.ts";
-import { SecureCookieMap } from "https://deno.land/x/oak@v12.4.0/deps.ts";
-import {
-  Application,
-  BodyBytes,
-  BodyJson,
-  BodyText,
-  HTTPMethods,
-  RouterContext,
-} from "https://deno.land/x/oak@v12.4.0/mod.ts";
+import Application from "koa";
+import { Next, Response, isNext } from "./response";
+import Router from "@koa/router";
+import * as Cookies from "cookies";
+import { type IncomingHttpHeaders } from "http";
+
+export type HTTPMethods = "get" | "post" | "put" | "options" | "delete";
 
 export interface Route {
   path: string;
   method: HTTPMethods;
-  actions: Array<(ctx: RouteContext) => Promise<Next | Response> | Next | Response>;
+  actions: Array<
+    (ctx: RouteContext) => Promise<Next | Response> | Next | Response
+  >;
 }
 
 export class RouteHandler {
-  public actions: Array<(ctx: RouteContext) => Promise<Next | Response> | Next | Response> = [];
+  public actions: Array<
+    (ctx: RouteContext) => Promise<Next | Response> | Next | Response
+  > = [];
   constructor(
     public path: string,
     public method: HTTPMethods,
-    ...action: Array<(ctx: RouteContext) => Promise<Next | Response> | Next | Response>
+    ...action: Array<
+      (ctx: RouteContext) => Promise<Next | Response> | Next | Response
+    >
   ) {
     action.forEach((a) => this.actions.push(a));
   }
 
   // deno-lint-ignore no-explicit-any
-  async run(ctx: RouterContext<any, any, any>) {
+  async run(
+    ctx: Application.ParameterizedContext<
+      Application.DefaultState,
+      Application.DefaultContext &
+        Router.RouterParamContext<
+          Application.DefaultState,
+          Application.DefaultContext
+        >,
+      unknown
+    >
+  ) {
     console.log("Running route handler: " + this.path); // TODO: Custom logger implementation
     let routeContext: RouteContext = {
       route: {
@@ -37,10 +49,9 @@ export class RouteHandler {
       },
       cookies: ctx.cookies,
       req: {
-        body: ctx.request.body(),
-        bodyBytes: ctx.request.body({ type: "bytes" }),
-        bodyJson: ctx.request.body({ type: "json" }),
-        bodyText: ctx.request.body({ type: "text" }),
+        body: ctx.request.rawBody,
+        bodyJson:
+          (typeof ctx.request.body === "object" ? ctx.request.body : {}) ?? {},
         headers: ctx.request.headers,
         ip: ctx.request.ip,
         params: ctx.params,
@@ -68,7 +79,7 @@ export class RouteHandler {
     if (isNext(routeContext.res)) {
       ctx.response.status = 501;
       ctx.response.body = "Not Implemented";
-      ctx.response.headers.set("Content-Type", "text/plain");
+      ctx.set("Content-Type", "text/plain");
       return;
     }
     routeContext.res = routeContext.res as Response;
@@ -84,13 +95,11 @@ export interface RouteContext {
     // deno-lint-ignore no-explicit-any
     app: Application<Record<string, any>>;
   };
-  cookies: SecureCookieMap;
+  cookies: Cookies;
   req: {
-    body: Body;
-    bodyBytes: BodyBytes;
-    bodyJson: BodyJson;
-    bodyText: BodyText;
-    headers: Headers;
+    body: unknown;
+    bodyJson: object;
+    headers: IncomingHttpHeaders;
     ip: string;
     params: Record<string | number, string | undefined>;
   };

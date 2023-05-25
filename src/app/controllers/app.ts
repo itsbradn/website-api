@@ -1,4 +1,4 @@
-import { Controller } from "../interfaces/controller.ts";
-import { IndexRoute } from "./index.ts";
+import { Controller } from "../interfaces/controller";
+import { IndexRoute } from "./index";
 
 export const AppController = new Controller('/api/v1', [IndexRoute], []);

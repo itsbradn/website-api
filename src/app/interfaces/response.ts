@@ -1,9 +1,8 @@
-import { Status } from "https://deno.land/x/oak@v12.4.0/deps.ts";
-import { RouteContext } from "./route.ts";
+import { RouteContext } from "./route";
 
 export interface Response {
-  status: Status;
-  body: string | Uint8Array | Deno.Reader | Record<string, unknown>;
+  status: number;
+  body: string | Uint8Array | Record<string, unknown>;
 }
 
 export interface Next {

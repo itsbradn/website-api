@@ -1,6 +1,7 @@
-import { Router } from "https://deno.land/x/oak@v12.4.0/mod.ts";
-import { Guard } from "./guard.ts";
-import { Route, RouteHandler } from "./route.ts";
+
+import Router from "@koa/router";
+import { Guard } from "./guard";
+import { Route, RouteHandler } from "./route";
 
 export class Controller {
   constructor(
@@ -23,10 +24,10 @@ export class Controller {
         ...route.actions
       );
 
-      router.add(route.method, this.parsePath(this.prefix + route.path), async (ctx) => {
+      router[route.method](this.parsePath(this.prefix + route.path), async (ctx) => {
         console.log("test");
         await handler.run(ctx);
-      });
+      })
       console.log("Loaded route: " + this.parsePath(this.prefix + route.path)); // TODO: Custom logger implementation
     }
 

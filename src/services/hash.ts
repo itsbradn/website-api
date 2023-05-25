@@ -1,4 +1,4 @@
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+import * as bcrypt from 'bcrypt';
 
 export const oneWayHash = async (text: string) => {
   const salt = await bcrypt.genSalt(8);
