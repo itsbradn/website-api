@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import { User } from "../../types/user";
 
 const UserSchema = new Schema<User>({
@@ -15,7 +15,8 @@ const UserSchema = new Schema<User>({
   passwordHash: {
     type: String,
     required: true,
-  }
+  },
+  refreshTokens: Array<{ tokenHash: string; invalid: boolean; }>
 });
 
 export const UserModel = model<User>('User', UserSchema);

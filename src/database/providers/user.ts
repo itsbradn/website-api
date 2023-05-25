@@ -17,10 +17,10 @@ export const createUser = async (
 ): Promise<UserDocument | "USERNAME_TAKEN" | "EMAIL_TAKEN"> => {
   const passwordHash = await oneWayHash(passwordRaw);
 
-  const isUsernameTaken = !(await UserModel.findOne({ username }));
+  const isUsernameTaken = (await UserModel.findOne({ username })) !== null;
   if (isUsernameTaken) return "USERNAME_TAKEN";
 
-  const isEmailTaken = !(await UserModel.findOne({ email }));
+  const isEmailTaken = (await UserModel.findOne({ email })) !== null;
   if (isEmailTaken) return "EMAIL_TAKEN";
 
   return await UserModel.create({ username, email, passwordHash });

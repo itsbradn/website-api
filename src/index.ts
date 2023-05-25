@@ -7,7 +7,7 @@ import { databaseInit } from "./database/providers/login";
 
 const main = async () => {
   const app = new Koa();
-  app.use(bodyParser({ enableTypes: ["json"] }));
+  app.use(bodyParser());
 
   await databaseInit();
 
