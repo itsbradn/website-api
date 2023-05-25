@@ -9,3 +9,7 @@ export interface Response {
 export interface Next {
   ctx: RouteContext;
 }
+
+export function isNext(object: Next | Response): object is Next {
+  return 'ctx' in object;
+}

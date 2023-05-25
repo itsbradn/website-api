@@ -1,5 +1,5 @@
 import { Body } from "https://deno.land/x/oak@v12.4.0/body.ts";
-import { Next, Response } from "./response.ts";
+import { Next, Response, isNext } from "./response.ts";
 import { SecureCookieMap } from "https://deno.land/x/oak@v12.4.0/deps.ts";
 import {
   Application,
@@ -9,7 +9,6 @@ import {
   HTTPMethods,
   RouterContext,
 } from "https://deno.land/x/oak@v12.4.0/mod.ts";
-import { resolve } from "https://deno.land/std@0.185.0/path/win32.ts";
 
 export interface Route {
   path: string;
@@ -56,8 +55,7 @@ export class RouteHandler {
       const res = await action(routeContext);
       console.log("Action returned: " + res); // TODO: Custom logger implementation
 
-      // deno-lint-ignore no-prototype-builtins
-      if (res.hasOwnProperty("ctx")) {
+      if (isNext(res)) {
         routeContext = (res as Next).ctx;
         continue;
       }
@@ -67,7 +65,7 @@ export class RouteHandler {
       return;
     }
 
-    if (routeContext.res.hasOwnProperty('ctx')) {
+    if (isNext(routeContext.res)) {
       ctx.response.status = 501;
       ctx.response.body = "Not Implemented";
       ctx.response.headers.set("Content-Type", "text/plain");
@@ -83,6 +81,7 @@ export interface RouteContext {
   route: {
     path: string;
     method: HTTPMethods;
+    // deno-lint-ignore no-explicit-any
     app: Application<Record<string, any>>;
   };
   cookies: SecureCookieMap;
@@ -96,5 +95,6 @@ export interface RouteContext {
     params: Record<string | number, string | undefined>;
   };
   res: Response | Next;
+  // deno-lint-ignore ban-types
   options: Record<string, string | object | number>;
 }
