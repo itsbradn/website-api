@@ -15,12 +15,14 @@
     "@koa/router": "^12.0.0",
     "bcrypt": "^5.1.0",
     "cookies": "^0.8.0",
+    "dotenv": "^16.0.3",
     "koa": "^2.14.2",
-    "koa-bodyparser": "^4.4.0"
+    "koa-bodyparser": "^4.4.0",
+    "mongoose": "^7.2.1"
   },
   "scripts": {
     "start": "node ./dist/index.js",
     "build": "tsc",
-    "dev": "nodemon"
+    "dev": "nodemon ./src/index.ts"
   }
 }
