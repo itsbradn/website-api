@@ -31,6 +31,7 @@ export const getUserRoute: Route = {
       return {
         status: 200,
         body: { 
+          id: user.id,
           username: user.username,
           email: user.email,
          },
