@@ -1,28 +1,14 @@
-export interface DocPage {
-  section: string | undefined; // Should not start or end with /
-  path: string; // Should not start or end with /
-  /**
-   * Path calc:
-   *
-   * Path is calculated as follows:
-   * /docs/{section}/{...path}
-   *
-   * If section is undefined it will be calculated as follows:
-   * /docs/{...path}
-   */
+import { Types } from "mongoose";
 
+export interface DocPage {
+  path: string;
   title: string; // Title for page header
   label: string; // Label for sidebar
   description: string; // Page description for SEO
-  parent?: {
-    label: string;
-    isDrop: boolean;
-  };
-
-  content: Buffer;
+  content: DocContent[];
 }
 
-type DocContent =
+export type DocContent =
   | ContentHeading1
   | ContentHeading2
   | ContentHeading3
@@ -30,7 +16,9 @@ type DocContent =
   | ContentHeading5
   | ContentParagraph
   | ContentLink
-  | ContentDivider;
+  | ContentDivider
+  | ContentInlineCode
+  | ContentCode;
 
 interface ContentHeading1 {
   type: "h1";
@@ -70,4 +58,14 @@ interface ContentLink {
 
 interface ContentDivider {
   type: "divider";
+}
+
+interface ContentInlineCode {
+  type: "inline-code";
+  value: string;
+}
+
+interface ContentCode {
+  type: "code";
+  value: string;
 }
