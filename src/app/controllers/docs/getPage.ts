@@ -1,12 +1,13 @@
+import { fetchDocPageByPath } from "../../../database/providers/docs";
 import { Route } from "../../interfaces/route";
 
 export const getPageRoute: Route = {
   path: "/",
   method: "get",
   actions: [
-    (ctx) => {
-      const path = ctx.req.params.path;
-      if (!path)
+    async (ctx) => {
+      const path = ctx.req.query.path;
+      if (!path || typeof path !== "string")
         return {
           status: 400,
           body: {
@@ -14,9 +15,15 @@ export const getPageRoute: Route = {
           },
         };
 
-      
-      
-      
+      const doc = await fetchDocPageByPath(path);
+
+      if (doc.page) {
+        return {
+          status: 200,
+          body: doc,
+        };
+      }
+
       return {
         status: 500,
         body: {

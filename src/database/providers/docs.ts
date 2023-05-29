@@ -20,9 +20,9 @@ export const fetchDocPage = async (
   id: Types.ObjectId
 ): Promise<DocPageDocument | null> => await DocPageModel.findById(id);
 
-export const fetchDocPageByPath = async (fullPath: string) => {
-  let path = fullPath.startsWith("/") ? fullPath.slice(0, 1) : fullPath;
-  path = path.endsWith("/") ? path.slice(0, -1) : path;
+export const fetchDocPageByPath = async (path: string) => {
+  if (path.startsWith("/")) path = path.slice(1, path.length);
+  if (path.endsWith("/")) path = path.slice(0, -1);
 
   let sectionPath = path.includes("/") ? path.split("/")[0] : path;
   let pagePaths = path.split("/");
@@ -36,7 +36,7 @@ export const fetchDocPageByPath = async (fullPath: string) => {
   let searchArray = (arr: PageType[]) => {
     for (const val of arr) {
       if (val.children) searchArray(val.children);
-      else childIds.push(val.id);
+      else childIds.push(val.id._id);
     }
   };
 
@@ -52,7 +52,9 @@ export const fetchDocPageByPath = async (fullPath: string) => {
   ): Page | PageType[] | undefined => {
     for (const childId of arr) {
       if (childId.children) return childId.children;
-      const child = docPages.find((v) => v._id === childId.id);
+      const child = docPages.find((v) => {
+        return v._id.equals(childId.id);
+      });
       if (!child) continue;
       if (child.path !== path) continue;
 
@@ -70,6 +72,7 @@ export const fetchDocPageByPath = async (fullPath: string) => {
   }
 
   if (!final) final = arrayToSearch.find((v) => v.id !== undefined) as Page;
+  console.log(final);
 
   const convertContents = (arr: PageType[]): ContentItem[] => {
     return arr.map((v) => {
@@ -81,15 +84,35 @@ export const fetchDocPageByPath = async (fullPath: string) => {
         };
       return {
         type: "link",
-        value: docPages.find((z) => z._id === v.id)?.label,
+        value: docPages.find((z) => z._id.equals(v.id))?.label,
       };
     }) as ContentItem[];
   };
 
   let contents: ContentItem[] = convertContents(section.pages);
 
+  const sanitizePage = ({
+    title,
+    label,
+    description,
+    content,
+  }: {
+    title: string;
+    label: string;
+    description: string;
+    content: any[];
+  }) => ({
+    title,
+    label,
+    description,
+    content,
+  });
+
+  const finalPage = docPages.find((v) => v._id.equals(final?.id ?? ""));
+  if (!finalPage) throw new Error("Page not found");
+
   return {
-    page: docPages.find((v) => v._id === final?.id),
+    page: sanitizePage(finalPage),
     sectionContents: contents,
   };
 };

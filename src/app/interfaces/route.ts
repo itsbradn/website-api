@@ -55,6 +55,7 @@ export class RouteHandler {
         headers: ctx.request.headers,
         ip: ctx.request.ip,
         params: ctx.params,
+        query: ctx.query,
       },
       res: {
         status: 501,
@@ -102,6 +103,7 @@ export interface RouteContext {
     headers: IncomingHttpHeaders;
     ip: string;
     params: Record<string | number, string | undefined>;
+    query: NodeJS.Dict<string | string[]>;
   };
   res: Response | Next;
   // deno-lint-ignore ban-types
