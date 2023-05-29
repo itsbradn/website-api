@@ -1,5 +1,5 @@
 import { Schema, Types, model } from "mongoose";
-import { DocSection } from "../../types/DocSection";
+import { DocSection } from "../../types/docSection";
 
 const DocSectionSchema = new Schema<DocSection>({
   path: {
@@ -18,4 +18,7 @@ const DocSectionSchema = new Schema<DocSection>({
   pages: Array<{ id: Types.ObjectId; children: [] }>,
 });
 
-export const DocSectionModel = model<DocSection>('docSection', DocSectionSchema);
+export const DocSectionModel = model<DocSection>(
+  "docSection",
+  DocSectionSchema
+);
