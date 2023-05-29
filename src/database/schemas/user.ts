@@ -16,7 +16,11 @@ const UserSchema = new Schema<User>({
     type: String,
     required: true,
   },
-  refreshTokens: Array<{ tokenHash: string; invalid: boolean; }>
+  refreshTokens: Array<{ tokenHash: string; invalid: boolean; }>,
+  role: {
+    type: String,
+    default: "member",
+  }
 });
 
 export const UserModel = model<User>('User', UserSchema);

@@ -3,4 +3,5 @@ export interface User {
   email: string;
   passwordHash: string;
   refreshTokens: Array<{ token: string; invalid: boolean; }>;
+  role: 'member' | 'moderator' | 'bradn';
 }
