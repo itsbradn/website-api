@@ -26,7 +26,6 @@ export class Controller {
       router[route.method](
         this.parsePath(this.prefix + route.path),
         async (ctx) => {
-          console.log("test");
           await handler.run(ctx);
         }
       );

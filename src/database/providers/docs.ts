@@ -20,6 +20,17 @@ export const fetchDocPage = async (
   id: Types.ObjectId
 ): Promise<DocPageDocument | null> => await DocPageModel.findById(id);
 
+export const fetchDocSectionByPath = async (path: string) => {
+  if (path.startsWith("/")) path = path.slice(1, path.length);
+  if (path.endsWith("/")) path = path.slice(0, -1);
+
+  let sectionPath = path.includes("/") ? path.split("/")[0] : path;
+  const section = await fetchDocSection(sectionPath);
+  if (!section) throw new Error("No section found");
+
+  return section;
+}
+
 export const fetchDocPageByPath = async (path: string) => {
   if (path.startsWith("/")) path = path.slice(1, path.length);
   if (path.endsWith("/")) path = path.slice(0, -1);

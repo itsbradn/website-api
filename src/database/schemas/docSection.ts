@@ -15,7 +15,7 @@ const DocSectionSchema = new Schema<DocSection>({
     type: String,
     required: true,
   },
-  pages: Array<{ id: Types.ObjectId; children: [] }>,
+  pages: Array<{ id: Types.ObjectId; label?: string; children?: [] }>,
 });
 
 export const DocSectionModel = model<DocSection>(
