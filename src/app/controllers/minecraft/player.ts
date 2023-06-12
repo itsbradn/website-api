@@ -48,8 +48,28 @@ export const getPlayerRoute: Route = {
         return {
           uuid: obj.uuid,
           username: obj.username,
-          skin: obj.textures.skin,
-          cape: obj.textures.cape,
+          skin: {
+            ...obj.textures.skin,
+            url:
+              "https://api.bradn.dev/api/v1/minecraft/texture/" +
+              (obj.textures.skin.url
+                ? obj.textures.skin.url.split("/texture/")[1]
+                : ""),
+            id: obj.textures.skin.url
+              ? obj.textures.skin.url.split("/texture/")[1]
+              : "",
+          },
+          cape: {
+            ...obj.textures.cape,
+            url:
+              "https://api.bradn.dev/api/v1/minecraft/texture/" +
+              (obj.textures.cape.url
+                ? obj.textures.cape.url.split("/texture/")[1]
+                : ""),
+            id: obj.textures.cape.url
+              ? obj.textures.cape.url.split("/texture/")[1]
+              : "",
+          },
           created: obj.created_at,
         };
       };

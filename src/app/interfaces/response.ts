@@ -2,7 +2,8 @@ import { RouteContext } from "./route";
 
 export interface Response {
   status: number;
-  body: string | Uint8Array | Record<string, unknown>;
+  body: string | Uint8Array | Record<string, unknown> | ArrayBuffer;
+  contentType?: string;
 }
 
 export interface Next {

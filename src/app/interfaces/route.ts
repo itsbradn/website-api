@@ -74,6 +74,9 @@ export class RouteHandler {
 
       ctx.response.status = (res as Response).status;
       ctx.response.body = (res as Response).body;
+      if ((res as Response).contentType) {
+        ctx.set("Content-Type", (res as Response).contentType as string);
+      }
       return;
     }
 
@@ -86,6 +89,10 @@ export class RouteHandler {
     routeContext.res = routeContext.res as Response;
     ctx.response.status = routeContext.res.status;
     ctx.response.body = routeContext.res.body;
+
+    if (routeContext.res.contentType) {
+      ctx.set("Content-Type", routeContext.res.contentType);
+    }
   }
 }
 
