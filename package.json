@@ -18,12 +18,12 @@
     "bcrypt": "^5.1.0",
     "cookies": "^0.8.0",
     "dotenv": "^16.0.3",
-    "hypixel-api-reborn": "^10.0.0",
     "jose": "^4.14.4",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.0",
     "mongoose": "^7.2.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "hypixel-api": "file:../hypixel-api"
   },
   "scripts": {
     "start": "node ./dist/index.js",
