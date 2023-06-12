@@ -17,7 +17,6 @@ export const getHypixelRoute: Route = {
       }
 
       try {
-
         const hypixelReq = await axios.get(
           "https://api.hypixel.net/player?uuid=" + uuid,
           {
@@ -26,7 +25,7 @@ export const getHypixelRoute: Route = {
             },
           }
         );
-  
+
         if (hypixelReq.data.success !== true) {
           return {
             status: 401,
@@ -35,19 +34,47 @@ export const getHypixelRoute: Route = {
             },
           };
         }
-  
+
+        const pre = -(10000 - 0.5 * 2500) / 2500;
+        const pre2 = pre * pre;
+        const growthDivides = 2 / 2500;
+        const num =
+          1 +
+          pre +
+          Math.sqrt(pre2 + growthDivides * hypixelReq.data.player.networkExp);
+        const level = Math.round(num * 100) / 100;
+
+        const expToNextLevel =
+          hypixelReq.data.player.networkExp < 10000
+            ? 10000
+            : 2500 * Math.floor(level) + 5000;
+
+        const lastLevel = Math.floor(level) - 1;
+        const levelExpFloor = 1250 * lastLevel ** 2 + 8750 * lastLevel;
+
+        const levelProgress =
+          Math.round(
+            (hypixelReq.data.player.networkExp / expToNextLevel) * 100 * 100
+          ) / 100;
+
         return {
           status: 200,
-          body: hypixelReq.data,
+          body: {
+            ...hypixelReq.data.player,
+            level,
+            expToNextLevel,
+            levelExpFloor,
+            levelProgress,
+          },
         };
       } catch (e) {
         console.log(e);
         return {
           status: 400,
           body: {
-            error: 'Internal Server Error'
-          }
-        }
+            error: "Internal Server Error",
+          },
+        };
       }
     },
   ],
