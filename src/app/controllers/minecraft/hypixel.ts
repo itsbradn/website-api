@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Route } from "../../interfaces/route";
 
-export const getPlayerRoute: Route = {
+export const getHypixelRoute: Route = {
   path: "/hypixel/:uuid",
   method: "get",
   actions: [
