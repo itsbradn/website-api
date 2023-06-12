@@ -16,28 +16,39 @@ export const getHypixelRoute: Route = {
         };
       }
 
-      const hypixelReq = await axios.get(
-        "https://api.hypixel.net/player?uuid=" + uuid,
-        {
-          headers: {
-            "API-Key": process.env.HYPIXEL_KEY!,
-          },
+      try {
+
+        const hypixelReq = await axios.get(
+          "https://api.hypixel.net/player?uuid=" + uuid,
+          {
+            headers: {
+              "API-Key": process.env.HYPIXEL_KEY!,
+            },
+          }
+        );
+  
+        if (hypixelReq.data.success !== true) {
+          return {
+            status: 401,
+            body: {
+              error: hypixelReq.data.cause,
+            },
+          };
         }
-      );
-
-      if (hypixelReq.data.success !== true) {
+  
         return {
-          status: 401,
-          body: {
-            error: hypixelReq.data.cause,
-          },
+          status: 200,
+          body: hypixelReq.data,
         };
+      } catch (e) {
+        console.log(e);
+        return {
+          status: 400,
+          body: {
+            error: 'Internal Server Error'
+          }
+        }
       }
-
-      return {
-        status: 200,
-        body: hypixelReq.data,
-      };
     },
   ],
 };
