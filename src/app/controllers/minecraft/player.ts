@@ -15,10 +15,10 @@ export const getPlayerRoute: Route = {
         };
       }
 
-      const req = await fetch(
-        "https://api.ashcon.app/mojang/v2/user/" + player
+      const uuidReq = await fetch(
+        "https://api.mojang.com/users/profiles/minecraft/" + player
       ).catch((e) => {});
-      if (!req) {
+      if (!uuidReq) {
         return {
           status: 400,
           body: {
@@ -26,56 +26,78 @@ export const getPlayerRoute: Route = {
           },
         };
       }
-      const data = await req.json();
-      type SingleNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-      type CreatedDate =
-        `${number}-${SingleNumber}${SingleNumber}-${SingleNumber}${SingleNumber}`;
+      const uuidData = await uuidReq.json();
+      const skinReq = await fetch(
+        "https://sessionserver.mojang.com/session/minecraft/profile/" + uuidData.id
+      ).catch((e) => {});
+      if (!skinReq) {
+        return {
+          status: 400,
+          body: {
+            error: "Invalid Mojang API Response",
+          },
+        };
+      }
+      const skinData = await skinReq.json();
+      console.log(skinData);
+
+      // const req = await fetch(
+      //   "https://api.ashcon.app/mojang/v2/user/" + player
+      // ).catch((e) => {});
+      // if (!req) {
+      //   return {
+      //     status: 400,
+      //     body: {
+      //       error: "Invalid Mojang API Response",
+      //     },
+      //   };
+      // }
+      // const data = await req.json();
 
       const parseData = (
-        obj: any
+        uuid: any,
+        skin: any
       ): {
         uuid: string;
         username: string;
-        skin: { slim: boolean; custom: boolean; url: string; data: string };
-        cape: { url: string; data: string };
-        created: CreatedDate;
+        skin: { url: string; id: string };
+        cape: { url: string; id: string };
       } => {
-        if (typeof obj !== "object")
+        if (typeof uuid !== "object" || typeof skin !== "object")
           throw new Error("Invalid Mojang API Response");
-        if (obj.error && obj.error == "Not Found")
-          throw new Error("User not found");
+
+        const decodedTextures = JSON.parse(
+          new Buffer(skin.properties[0].value, "base64").toString("ascii")
+        );
 
         return {
-          uuid: obj.uuid,
-          username: obj.username,
+          uuid: uuid.id,
+          username: uuid.name,
           skin: {
-            ...obj.textures.skin,
             url:
               "https://api.bradn.dev/api/v1/minecraft/texture/" +
-              (obj.textures.skin?.url
-                ? obj.textures.skin.url.split("/texture/")[1]
+              (decodedTextures.textures.SKIN?.url
+                ? decodedTextures.textures.SKIN.url.split("/texture/")[1]
                 : ""),
-            id: obj.textures.skin?.url
-              ? obj.textures.skin.url.split("/texture/")[1]
+            id: decodedTextures.textures.SKIN?.url
+              ? decodedTextures.textures.SKIN.url.split("/texture/")[1]
               : "",
           },
           cape: {
-            ...obj.textures.cape,
             url:
               "https://api.bradn.dev/api/v1/minecraft/texture/" +
-              (obj.textures.cape?.url
-                ? obj.textures.cape.url.split("/texture/")[1]
+              (decodedTextures.textures.CAPE?.url
+                ? decodedTextures.textures.CAPE.url.split("/texture/")[1]
                 : ""),
-            id: obj.textures.cape?.url
-              ? obj.textures.cape.url.split("/texture/")[1]
+            id: decodedTextures.textures.CAPE?.url
+              ? decodedTextures.textures.CAPE.url.split("/texture/")[1]
               : "",
           },
-          created: obj.created_at,
         };
       };
 
       try {
-        const parsed = parseData(data);
+        const parsed = parseData(uuidData, skinData);
         return {
           status: 200,
           body: parsed,
