@@ -48,8 +48,8 @@ export const getPlayerRoute: Route = {
         return {
           uuid: obj.uuid,
           username: obj.username,
-          skin: obj.skin,
-          cape: obj.cape,
+          skin: obj.textures.skin,
+          cape: obj.textures.cape,
           created: obj.created_at,
         };
       };
