@@ -47,14 +47,14 @@ export const getHypixelRoute: Route = {
         const expToNextLevel =
           hypixelReq.data.player.networkExp < 10000
             ? 10000
-            : 2500 * Math.floor(level) + 5000;
+            : (2500 * Math.floor(level)) + 5000;
 
         const lastLevel = Math.floor(level) - 1;
         const levelExpFloor = 1250 * lastLevel ** 2 + 8750 * lastLevel;
 
         const levelProgress =
           Math.round(
-            (hypixelReq.data.player.networkExp / expToNextLevel) * 100 * 100
+            ((hypixelReq.data.player.networkExp - levelExpFloor) / expToNextLevel) * 100 * 100
           ) / 100;
 
         return {
