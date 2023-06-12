@@ -39,20 +39,6 @@ export const getPlayerRoute: Route = {
         };
       }
       const skinData = await skinReq.json();
-      console.log(skinData);
-
-      // const req = await fetch(
-      //   "https://api.ashcon.app/mojang/v2/user/" + player
-      // ).catch((e) => {});
-      // if (!req) {
-      //   return {
-      //     status: 400,
-      //     body: {
-      //       error: "Invalid Mojang API Response",
-      //     },
-      //   };
-      // }
-      // const data = await req.json();
 
       const parseData = (
         uuid: any,
@@ -67,7 +53,7 @@ export const getPlayerRoute: Route = {
           throw new Error("Invalid Mojang API Response");
 
         const decodedTextures = JSON.parse(
-          new Buffer(skin.properties[0].value, "base64").toString("ascii")
+          Buffer.from(skin.properties[0].value, "base64").toString("ascii")
         );
 
         return {
