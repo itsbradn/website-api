@@ -52,10 +52,10 @@ export const getPlayerRoute: Route = {
             ...obj.textures.skin,
             url:
               "https://api.bradn.dev/api/v1/minecraft/texture/" +
-              (obj.textures.skin.url
+              (obj.textures.skin?.url
                 ? obj.textures.skin.url.split("/texture/")[1]
                 : ""),
-            id: obj.textures.skin.url
+            id: obj.textures.skin?.url
               ? obj.textures.skin.url.split("/texture/")[1]
               : "",
           },
@@ -63,10 +63,10 @@ export const getPlayerRoute: Route = {
             ...obj.textures.cape,
             url:
               "https://api.bradn.dev/api/v1/minecraft/texture/" +
-              (obj.textures.cape.url
+              (obj.textures.cape?.url
                 ? obj.textures.cape.url.split("/texture/")[1]
                 : ""),
-            id: obj.textures.cape.url
+            id: obj.textures.cape?.url
               ? obj.textures.cape.url.split("/texture/")[1]
               : "",
           },
