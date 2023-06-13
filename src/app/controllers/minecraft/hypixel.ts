@@ -1,5 +1,10 @@
 import axios from "axios";
 import { Route } from "../../interfaces/route";
+import {
+  calculateLevelData,
+  calculateLevelFromExp,
+} from "../../../services/hypixel/level";
+import { formatTntGamesStats } from "../../../services/hypixel/tntgames";
 
 export const getHypixelRoute: Route = {
   path: "/hypixel/:uuid",
@@ -35,36 +40,14 @@ export const getHypixelRoute: Route = {
           };
         }
 
-        const pre = -(10000 - 0.5 * 2500) / 2500;
-        const pre2 = pre * pre;
-        const growthDivides = 2 / 2500;
-        const num =
-          1 +
-          pre +
-          Math.sqrt(pre2 + growthDivides * hypixelReq.data.player.networkExp);
-        const level = Math.round(num * 100) / 100;
-
-        const expToNextLevel =
-          hypixelReq.data.player.networkExp < 10000
-            ? 10000
-            : (2500 * Math.floor(level)) + 5000;
-
-        const lastLevel = Math.floor(level) - 1;
-        const levelExpFloor = 1250 * lastLevel ** 2 + 8750 * lastLevel;
-
-        const levelProgress =
-          Math.round(
-            ((hypixelReq.data.player.networkExp - levelExpFloor) / expToNextLevel) * 100 * 100
-          ) / 100;
-
         return {
           status: 200,
           body: {
             ...hypixelReq.data.player,
-            level,
-            expToNextLevel,
-            levelExpFloor,
-            levelProgress,
+            ...calculateLevelData(hypixelReq.data.player.networkExp),
+            games: {
+              ...formatTntGamesStats(hypixelReq.data.player),
+            },
           },
         };
       } catch (e) {

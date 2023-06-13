@@ -17,13 +17,13 @@
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cookies": "^0.8.0",
+    "dayjs": "^1.11.8",
     "dotenv": "^16.0.3",
     "jose": "^4.14.4",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.0",
     "mongoose": "^7.2.1",
-    "uuid": "^9.0.0",
-    "hypixel-api": "file:../hypixel-api"
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "start": "node ./dist/index.js",
