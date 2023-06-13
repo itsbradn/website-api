@@ -6,6 +6,7 @@ dayjs.extend(duration);
 
 export interface TNTGamesStats {
   wins: number;
+  winstreak: number;
   coins: number;
   particleEffect: string;
   deathEffect: string;
@@ -89,6 +90,7 @@ export const formatTntGamesStats = (
   return {
     tntGames: {
       wins: parseWhole(tntStats["wins"]),
+      winstreak: parseWhole(tntStats["winstreak"]),
       coins: parseWhole(tntStats["coins"]),
       particleEffect: capAndSpaceEffect(tntStats["new_active_particle_effect"]),
       deathEffect: capAndSpaceEffect(tntStats["new_active_death_effect"]),
