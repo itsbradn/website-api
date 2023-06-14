@@ -1,3 +1,8 @@
+import {
+  cacheData,
+  checkCacheByPlayername,
+  checkCacheByUuid,
+} from "../../../database/providers/minecraft";
 import { Route } from "../../interfaces/route";
 
 export const getPlayerRoute: Route = {
@@ -15,6 +20,19 @@ export const getPlayerRoute: Route = {
         };
       }
 
+      const cache = await checkCacheByPlayername(player, "mojang");
+      if (cache) {
+        return {
+          status: 200,
+          body: {
+            uuid: cache.uuid,
+            username: cache.username,
+            skin: cache.skin,
+            cape: cache.cape,
+          },
+        };
+      }
+
       const uuidReq = await fetch(
         "https://api.mojang.com/users/profiles/minecraft/" + player
       ).catch((e) => {});
@@ -28,7 +46,8 @@ export const getPlayerRoute: Route = {
       }
       const uuidData = await uuidReq.json();
       const skinReq = await fetch(
-        "https://sessionserver.mojang.com/session/minecraft/profile/" + uuidData.id
+        "https://sessionserver.mojang.com/session/minecraft/profile/" +
+          uuidData.id
       ).catch((e) => {});
       if (!skinReq) {
         return {
@@ -84,6 +103,9 @@ export const getPlayerRoute: Route = {
 
       try {
         const parsed = parseData(uuidData, skinData);
+
+        cacheData(parsed, "mojang");
+
         return {
           status: 200,
           body: parsed,

@@ -5,6 +5,10 @@ import {
   calculateLevelFromExp,
 } from "../../../services/hypixel/level";
 import { formatTntGamesStats } from "../../../services/hypixel/tntgames";
+import {
+  cacheData,
+  checkCacheByUuid,
+} from "../../../database/providers/minecraft";
 
 export const getHypixelRoute: Route = {
   path: "/hypixel/:uuid",
@@ -17,6 +21,32 @@ export const getHypixelRoute: Route = {
           status: 401,
           body: {
             error: "Invalid player",
+          },
+        };
+      }
+      const cache = await checkCacheByUuid(uuid, "hypixel");
+      if (cache) {
+        return {
+          status: 200,
+          body: {
+            newPackageRank: cache.newPackageRank,
+            monthlyPackageRank: cache.monthlyPackageRank,
+            rankPlusColor: cache.rankPlusColor,
+            monthlyRankColor: cache.monthlyRankColor,
+            rank: cache.rank,
+            prefix: cache.prefix,
+            firstLogin: cache.firstLogin,
+            lastLogin: cache.lastLogin,
+            achievementPoints: cache.achievementPoints,
+            totalRewards: cache.totalRewards,
+            totalDailyRewards: cache.totalDailyRewards,
+            rewardStreak: cache.rewardStreak,
+            rewardScore: cache.rewardScore,
+            level: cache.level,
+            expToNextLevel: cache.expToNextLevel,
+            levelExpFloor: cache.levelExpFloor,
+            levelProgress: cache.levelProgress,
+            games: cache.games,
           },
         };
       }
@@ -40,15 +70,32 @@ export const getHypixelRoute: Route = {
           };
         }
 
+        const final = {
+          uuid,
+          newPackageRank: hypixelReq.data.player.newPackageRank,
+          monthlyPackageRank: hypixelReq.data.player.monthlyPackageRank,
+          rankPlusColor: hypixelReq.data.player.rankPlusColor,
+          monthlyRankColor: hypixelReq.data.player.monthlyRankColor,
+          rank: hypixelReq.data.player.rank,
+          prefix: hypixelReq.data.player.prefix,
+          firstLogin: hypixelReq.data.player.firstLogin,
+          lastLogin: hypixelReq.data.player.lastLogin,
+          achievementPoints: hypixelReq.data.player.achievementPoints,
+          totalRewards: hypixelReq.data.player.totalRewards,
+          totalDailyRewards: hypixelReq.data.player.totalDailyRewards,
+          rewardStreak: hypixelReq.data.player.rewardStreak,
+          rewardScore: hypixelReq.data.player.rewardScore,
+          ...calculateLevelData(hypixelReq.data.player.networkExp),
+          games: {
+            ...formatTntGamesStats(hypixelReq.data.player),
+          },
+        };
+
+        cacheData(final, "hypixel");
+
         return {
           status: 200,
-          body: {
-            ...hypixelReq.data.player,
-            ...calculateLevelData(hypixelReq.data.player.networkExp),
-            games: {
-              ...formatTntGamesStats(hypixelReq.data.player),
-            },
-          },
+          body: final,
         };
       } catch (e) {
         console.log(e);
