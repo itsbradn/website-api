@@ -9,6 +9,7 @@ import {
   cacheData,
   checkCacheByUuid,
 } from "../../../database/providers/minecraft";
+import { formatBedwarsStats } from "../../../services/hypixel/bedwars";
 
 export const getHypixelRoute: Route = {
   path: "/hypixel/:uuid",
@@ -88,6 +89,7 @@ export const getHypixelRoute: Route = {
           ...calculateLevelData(hypixelReq.data.player.networkExp),
           games: {
             ...formatTntGamesStats(hypixelReq.data.player),
+            ...formatBedwarsStats(hypixelReq.data.player),
           },
         };
 
