@@ -11,7 +11,7 @@ export const cacheData = async (
   const mojangCacheUntil = new Date(Date.now() + 15 * 60 * 1000);
   const hypixelCacheUntil = new Date(Date.now() + 2 * 60 * 1000);
 
-  let finalData = { ...data };
+  let finalData = data;
   if (type === "mojang") finalData.mojangCacheUntil = mojangCacheUntil;
   else finalData.hypixelCacheUntil = hypixelCacheUntil;
 
@@ -29,7 +29,7 @@ export const checkCacheByPlayername = async (
   if (!cache) return null;
   const cacheUntil =
     type === "mojang" ? cache.mojangCacheUntil : cache.hypixelCacheUntil;
-  if (new Date() > cacheUntil) return null;
+  if (new Date().getTime() > cacheUntil.getTime()) return null;
 
   return cache;
 };
@@ -42,7 +42,7 @@ export const checkCacheByUuid = async (
   if (!cache) return null;
   const cacheUntil =
     type === "mojang" ? cache.mojangCacheUntil : cache.hypixelCacheUntil;
-  if (new Date() > cacheUntil) return null;
+  if (new Date().getTime() > cacheUntil.getTime()) return null;
 
   return cache;
 };
