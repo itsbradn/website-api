@@ -28,8 +28,11 @@ export const checkCacheByPlayername = async (
   const cache = await MinecraftModel.findOne({ username: playerName });
   if (!cache) return null;
   const cacheUntil =
-    type === "mojang" ? cache.mojangCacheUntil : cache.hypixelCacheUntil;
-  if (new Date().getTime() > cacheUntil.getTime()) return null;
+    type === "mojang"
+      ? cache.mojangCacheUntil?.getTime()
+      : cache.hypixelCacheUntil?.getTime();
+  if (new Date().getTime() > (cacheUntil === undefined ? 0 : cacheUntil))
+    return null;
 
   return cache;
 };
@@ -41,8 +44,11 @@ export const checkCacheByUuid = async (
   const cache = await MinecraftModel.findOne({ uuid });
   if (!cache) return null;
   const cacheUntil =
-    type === "mojang" ? cache.mojangCacheUntil : cache.hypixelCacheUntil;
-  if (new Date().getTime() > cacheUntil.getTime()) return null;
+    type === "mojang"
+      ? cache.mojangCacheUntil?.getTime()
+      : cache.hypixelCacheUntil?.getTime();
+  if (new Date().getTime() > (cacheUntil === undefined ? 0 : cacheUntil))
+    return null;
 
   return cache;
 };
