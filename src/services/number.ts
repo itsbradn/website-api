@@ -1,5 +1,5 @@
 export const parseWhole = (num?: any) => {
-  if (!num) return 0;
+  if (num === null || num === undefined) return 0;
   if (typeof num === "number" || typeof num === "bigint")
     return Math.round(Number(num));
   if (typeof num === "string") return Math.round(parseInt(num));
@@ -8,5 +8,6 @@ export const parseWhole = (num?: any) => {
 };
 
 export const parseWinLoss = (num1?: any, num2?: any) => {
-  return parseWhole(num1) / parseWhole(num2) ?? 0;
+  const num = parseWhole(num1) / parseWhole(num2);
+  return isNaN(num) ? 0 : num;
 };
