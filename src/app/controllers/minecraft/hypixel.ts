@@ -44,6 +44,8 @@ export const getHypixelRoute: Route = {
             rewardStreak: cache.rewardStreak,
             rewardScore: cache.rewardScore,
             level: cache.level,
+            karma: cache.karma,
+            experience: cache.experience,
             expToNextLevel: cache.expToNextLevel,
             levelExpFloor: cache.levelExpFloor,
             levelProgress: cache.levelProgress,
@@ -86,6 +88,8 @@ export const getHypixelRoute: Route = {
           totalDailyRewards: hypixelReq.data.player.totalDailyRewards,
           rewardStreak: hypixelReq.data.player.rewardStreak,
           rewardScore: hypixelReq.data.player.rewardScore,
+          karma: hypixelReq.data.player.karma,
+          experience: hypixelReq.data.player.networkExp,
           ...calculateLevelData(hypixelReq.data.player.networkExp),
           games: {
             ...formatTntGamesStats(hypixelReq.data.player),

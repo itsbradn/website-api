@@ -31,6 +31,8 @@ const MinecraftSchema = new Schema<Minecraft>({
   totalDailyRewards: Number,
   rewardStreak: Number,
   rewardScore: Number,
+  karma: Number,
+  experience: Number,
   level: Number,
   expToNextLevel: Number,
   levelExpFloor: Number,

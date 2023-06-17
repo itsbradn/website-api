@@ -21,6 +21,8 @@ export interface Minecraft {
   totalDailyRewards?: number; // ? because hypixel api is weird
   rewardStreak?: number; // ? because hypixel api is weird
   rewardScore?: number; // ? because hypixel api is weird
+  karma: number;
+  experience: number;
   level: number;
   expToNextLevel: number;
   levelExpFloor: number;
