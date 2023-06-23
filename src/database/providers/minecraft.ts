@@ -15,10 +15,8 @@ export const cacheData = async (
   if (type === "mojang") finalData.mojangCacheUntil = mojangCacheUntil;
   else finalData.hypixelCacheUntil = hypixelCacheUntil;
 
-  return await MinecraftModel.updateOne(
-    { uuid: data.uuid },
-    { $set: finalData }
-  );
+  cur.$set(finalData);
+  return await cur.save();
 };
 
 export const checkCacheByPlayername = async (

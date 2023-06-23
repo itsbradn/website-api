@@ -18,6 +18,8 @@ const MinecraftSchema = new Schema<Minecraft>({
     url: String,
     id: String,
   },
+  online: Boolean,
+  currentlyPlaying: String,
   newPackageRank: String,
   monthlyPackageRank: String,
   rankPlusColor: String,

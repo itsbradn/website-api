@@ -8,6 +8,8 @@ export interface Minecraft {
   username: string;
   skin: { url: string; id: string };
   cape: { url: string; id: string };
+  online: boolean;
+  currentlyPlaying: string | null;
   newPackageRank?: string; // ? because hypixel api is weird
   monthlyPackageRank?: string; // ? because hypixel api is weird
   rankPlusColor?: string; // ? because hypixel api is weird
