@@ -1,3 +1,4 @@
+import { Document, Types } from "mongoose";
 import { Minecraft } from "../../types/minecraft";
 import { MinecraftModel } from "../schemas/minecraft";
 
@@ -22,31 +23,83 @@ export const cacheData = async (
 export const checkCacheByPlayername = async (
   playerName: string,
   type: "mojang" | "hypixel"
-) => {
+): Promise<
+  | {
+      data: Document<unknown, {}, Minecraft> &
+        Omit<
+          Minecraft & {
+            _id: Types.ObjectId;
+          },
+          never
+        >;
+      refresh: false;
+    }
+  | {
+    data:
+        | (Document<unknown, {}, Minecraft> &
+            Omit<
+              Minecraft & {
+                _id: Types.ObjectId;
+              },
+              never
+            >)
+        | null;
+      refresh: true;
+    }
+> => {
   const cache = await MinecraftModel.findOne({ username: playerName });
-  if (!cache) return null;
+  if (!cache) return { data: null, refresh: true };
   const cacheUntil =
     type === "mojang"
       ? cache.mojangCacheUntil?.getTime()
       : cache.hypixelCacheUntil?.getTime();
   if (new Date().getTime() > (cacheUntil === undefined ? 0 : cacheUntil))
-    return null;
+    return { data: cache, refresh: true };
 
-  return cache;
+  return { data: cache, refresh: false };
 };
 
 export const checkCacheByUuid = async (
   uuid: string,
   type: "mojang" | "hypixel"
-) => {
+): Promise<
+  | {
+    data: Document<unknown, {}, Minecraft> &
+        Omit<
+          Minecraft & {
+            _id: Types.ObjectId;
+          },
+          never
+        >;
+      refresh: false;
+    }
+  | {
+    data:
+        | (Document<unknown, {}, Minecraft> &
+            Omit<
+              Minecraft & {
+                _id: Types.ObjectId;
+              },
+              never
+            >)
+        | null;
+      refresh: true;
+    }
+> => {
   const cache = await MinecraftModel.findOne({ uuid });
-  if (!cache) return null;
+  if (!cache) return { data: null, refresh: true };
   const cacheUntil =
     type === "mojang"
       ? cache.mojangCacheUntil?.getTime()
       : cache.hypixelCacheUntil?.getTime();
   if (new Date().getTime() > (cacheUntil === undefined ? 0 : cacheUntil))
-    return null;
+    return { data: cache, refresh: true };
 
-  return cache;
+  return { data: cache, refresh: false };
 };
+
+export const getCacheDoc = async (uuid: string) => {
+  let doc = await MinecraftModel.findOne({ uuid });
+  if (!doc) doc = await MinecraftModel.create({ uuid });
+  return doc;
+}

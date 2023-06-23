@@ -21,14 +21,14 @@ export const getPlayerRoute: Route = {
       }
 
       const cache = await checkCacheByPlayername(player, "mojang");
-      if (cache) {
+      if (!cache.refresh) {
         return {
           status: 200,
           body: {
-            uuid: cache.uuid,
-            username: cache.username,
-            skin: cache.skin,
-            cape: cache.cape,
+            uuid: cache.data.uuid,
+            username: cache.data.username,
+            skin: cache.data.skin,
+            cape: cache.data.cape,
           },
         };
       }

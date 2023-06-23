@@ -8,6 +8,7 @@ import { formatTntGamesStats } from "../../../services/hypixel/tntgames";
 import {
   cacheData,
   checkCacheByUuid,
+  getCacheDoc,
 } from "../../../database/providers/minecraft";
 import { formatBedwarsStats } from "../../../services/hypixel/bedwars";
 import { Minecraft } from "../../../types/minecraft";
@@ -28,31 +29,35 @@ export const getHypixelRoute: Route = {
         };
       }
       const cache = await checkCacheByUuid(uuid, "hypixel");
-      if (cache) {
+      console.log(cache);
+      if (!cache.refresh) {
+        console.log("cached");
         return {
           status: 200,
           body: {
-            uuid: cache.uuid,
-            newPackageRank: cache.newPackageRank,
-            monthlyPackageRank: cache.monthlyPackageRank,
-            rankPlusColor: cache.rankPlusColor,
-            monthlyRankColor: cache.monthlyRankColor,
-            rank: cache.rank,
-            prefix: cache.prefix,
-            firstLogin: cache.firstLogin,
-            lastLogin: cache.lastLogin,
-            achievementPoints: cache.achievementPoints,
-            totalRewards: cache.totalRewards,
-            totalDailyRewards: cache.totalDailyRewards,
-            rewardStreak: cache.rewardStreak,
-            rewardScore: cache.rewardScore,
-            level: cache.level,
-            karma: cache.karma,
-            experience: cache.experience,
-            expToNextLevel: cache.expToNextLevel,
-            levelExpFloor: cache.levelExpFloor,
-            levelProgress: cache.levelProgress,
-            games: cache.games,
+            uuid: cache.data.uuid,
+            online: cache.data.online,
+            currentlyPlaying: cache.data.currentlyPlaying,
+            newPackageRank: cache.data.newPackageRank,
+            monthlyPackageRank: cache.data.monthlyPackageRank,
+            rankPlusColor: cache.data.rankPlusColor,
+            monthlyRankColor: cache.data.monthlyRankColor,
+            rank: cache.data.rank,
+            prefix: cache.data.prefix,
+            firstLogin: cache.data.firstLogin,
+            lastLogin: cache.data.lastLogin,
+            achievementPoints: cache.data.achievementPoints,
+            totalRewards: cache.data.totalRewards,
+            totalDailyRewards: cache.data.totalDailyRewards,
+            rewardStreak: cache.data.rewardStreak,
+            rewardScore: cache.data.rewardScore,
+            level: cache.data.level,
+            karma: cache.data.karma,
+            experience: cache.data.experience,
+            expToNextLevel: cache.data.expToNextLevel,
+            levelExpFloor: cache.data.levelExpFloor,
+            levelProgress: cache.data.levelProgress,
+            games: cache.data.games,
           },
         };
       }
@@ -71,13 +76,23 @@ export const getHypixelRoute: Route = {
             },
           };
         }
+        let doc = cache.data === null ? await getCacheDoc(uuid) : cache.data;
 
-        let final = {
+        if (hypixelStatus.data.success === true) {
+          doc.set(
+            "online",
+            hypixelStatus.data.session.online === true ? true : false
+          );
+          doc.set(
+            "currentlyPlaying",
+            hypixelStatus.data.session.gameType ?? null
+          );
+        }
+
+        let finalData = {
           uuid,
           newPackageRank: hypixelReq.data.player.newPackageRank,
           monthlyPackageRank: hypixelReq.data.player.monthlyPackageRank,
-          online: false,
-          currentlyPlaying: null,
           rankPlusColor: hypixelReq.data.player.rankPlusColor,
           monthlyRankColor: hypixelReq.data.player.monthlyRankColor,
           rank: hypixelReq.data.player.rank,
@@ -97,18 +112,38 @@ export const getHypixelRoute: Route = {
             ...formatBedwarsStats(hypixelReq.data.player),
           },
         };
+        doc.set(finalData);
+        doc.set("hypixelCacheUntil", new Date(Date.now() + 2 * 60 * 1000));
 
-        if (hypixelStatus.data.success === true) {
-          final.online =
-            hypixelStatus.data.session.online === true ? true : false;
-          final.currentlyPlaying = hypixelStatus.data.session.gameType ?? null;
-        }
-
-        cacheData(final, "hypixel");
+        doc.save();
 
         return {
           status: 200,
-          body: final,
+          body: {
+            uuid: doc.uuid,
+            online: doc.online,
+            currentlyPlaying: doc.currentlyPlaying,
+            newPackageRank: doc.newPackageRank,
+            monthlyPackageRank: doc.monthlyPackageRank,
+            rankPlusColor: doc.rankPlusColor,
+            monthlyRankColor: doc.monthlyRankColor,
+            rank: doc.rank,
+            prefix: doc.prefix,
+            firstLogin: doc.firstLogin,
+            lastLogin: doc.lastLogin,
+            achievementPoints: doc.achievementPoints,
+            totalRewards: doc.totalRewards,
+            totalDailyRewards: doc.totalDailyRewards,
+            rewardStreak: doc.rewardStreak,
+            rewardScore: doc.rewardScore,
+            level: doc.level,
+            karma: doc.karma,
+            experience: doc.experience,
+            expToNextLevel: doc.expToNextLevel,
+            levelExpFloor: doc.levelExpFloor,
+            levelProgress: doc.levelProgress,
+            games: doc.games,
+          },
         };
       } catch (e) {
         console.log(e);
