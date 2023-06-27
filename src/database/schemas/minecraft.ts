@@ -106,6 +106,7 @@ const MinecraftSchema = new Schema<Minecraft>({
       gamesPlayed: Number,
       dreamGamesPlayed: Number,
       overallGamesPlayed: Number,
+      level: Number,
       experience: Number,
       experienceGameRatio: Number,
       experienceWinRatio: Number,
