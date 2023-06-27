@@ -1,5 +1,6 @@
 import { BedwarsStats } from "../services/hypixel/bedwars";
 import { BuildBattleStats } from "../services/hypixel/buildbattle";
+import { MurderMysteryStats } from "../services/hypixel/murdermystery";
 import { TNTGamesStats } from "../services/hypixel/tntgames";
 
 export interface Minecraft {
@@ -34,5 +35,6 @@ export interface Minecraft {
     tntGames?: TNTGamesStats;
     bedwars?: BedwarsStats;
     buildBattle?: BuildBattleStats;
+    murderMystery?: MurderMysteryStats;
   };
 }
