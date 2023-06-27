@@ -13,6 +13,7 @@ import {
 import { formatBedwarsStats } from "../../../services/hypixel/bedwars";
 import { Minecraft } from "../../../types/minecraft";
 import { Document, Types } from "mongoose";
+import { formatBuildBattleStats } from "../../../services/hypixel/buildbattle";
 
 export const getHypixelRoute: Route = {
   path: "/hypixel/:uuid",
@@ -110,6 +111,7 @@ export const getHypixelRoute: Route = {
           games: {
             ...formatTntGamesStats(hypixelReq.data.player),
             ...formatBedwarsStats(hypixelReq.data.player),
+            ...formatBuildBattleStats(hypixelReq.data.player),
           },
         };
         doc.set(finalData);

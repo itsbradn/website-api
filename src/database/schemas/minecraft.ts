@@ -165,6 +165,30 @@ const MinecraftSchema = new Schema<Minecraft>({
       upgradesPurchased: Number,
       modes: Object,
     },
+    buildBattle: {
+      wins: Number,
+      coins: Number,
+      gamesPlayed: Number,
+      winsGamesPlayed: Number,
+      timesVoted: Number,
+      score: Number,
+      modes: {
+        soloNormal: {
+          wins: Number,
+        },
+        soloPro: {
+          wins: Number,
+        },
+        teamsNormal: {
+          wins: Number,
+          highestPoints: Number,
+        },
+        guessTheBuild: {
+          wins: Number,
+          correctGuesses: Number,
+        },
+      },
+    }
   },
 });
 

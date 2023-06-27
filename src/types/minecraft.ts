@@ -1,4 +1,5 @@
 import { BedwarsStats } from "../services/hypixel/bedwars";
+import { BuildBattleStats } from "../services/hypixel/buildbattle";
 import { TNTGamesStats } from "../services/hypixel/tntgames";
 
 export interface Minecraft {
@@ -31,6 +32,7 @@ export interface Minecraft {
   levelProgress: number;
   games: {
     tntGames?: TNTGamesStats;
-    bedwars?: BedwarsStats
+    bedwars?: BedwarsStats;
+    buildBattle?: BuildBattleStats;
   };
 }
