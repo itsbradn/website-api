@@ -119,10 +119,7 @@ export const formatTntGamesStats = (
           tntStats.flags?.show_wizards_cooldown_notifications,
           true
         ),
-        doubleJumpFeather: formatBool(
-          tntStats.flags?.give_dj_feather,
-          true
-        ),
+        doubleJumpFeather: formatBool(tntStats.flags?.give_dj_feather, true),
         wizardsPrestigeParticles: formatBool(
           tntStats.flags?.show_wiz_pres,
           true
@@ -223,7 +220,7 @@ export const calculateTntGamesPlaytime = (hypixelRes: any) => {
 };
 
 export const calculateRunRecord = (tntStats: any) => {
-  const record = tntStats["record_tntrun"];
+  const record = tntStats?.record_tntrun;
   if (!record) return "No record";
   const day = dayjs.duration(record as number, "seconds");
   const minutes = Math.floor(day.as("minutes"));
