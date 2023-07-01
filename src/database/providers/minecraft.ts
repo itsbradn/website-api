@@ -18,7 +18,7 @@ export const cacheData = async (
   else finalData.hypixelCacheUntil = hypixelCacheUntil;
 
   cur.$set(finalData);
-  cur.views = parseWhole(cur.views) + 1;
+  if (type === 'mojang') cur.views = parseWhole(cur.views) + 1;
   return await cur.save();
 };
 
