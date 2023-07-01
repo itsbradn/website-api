@@ -103,28 +103,28 @@ export const formatTntGamesStats = (
       playtime: calculateTntGamesPlaytime(hypixelRes),
       settings: {
         wizardsActionBar: formatBool(
-          tntStats["flags"]["show_wizards_actionbar_info"],
+          tntStats.flags?.show_wizards_actionbar_info,
           true
         ),
         runActionBar: formatBool(
-          tntStats["flags"]["show_tntrun_actionbar_info"],
+          tntStats.flags?.show_tntrun_actionbar_info,
           true
         ),
         tagActionBar: formatBool(
-          tntStats["flags"]["show_tnttag_actionbar_info"],
+          tntStats.flags?.show_tnttag_actionbar_info,
           true
         ),
-        tipHolograms: formatBool(tntStats["flags"]["show_tip_holograms"], true),
+        tipHolograms: formatBool(tntStats.flags?.show_tip_holograms, true),
         wizardsCooldownMessages: formatBool(
-          tntStats["flags"]["show_wizards_cooldown_notifications"],
+          tntStats.flags?.show_wizards_cooldown_notifications,
           true
         ),
         doubleJumpFeather: formatBool(
-          tntStats["flags"]["give_dj_feather"],
+          tntStats.flags?.give_dj_feather,
           true
         ),
         wizardsPrestigeParticles: formatBool(
-          tntStats["flags"]["show_wiz_pres"],
+          tntStats.flags?.show_wiz_pres,
           true
         ),
       },
