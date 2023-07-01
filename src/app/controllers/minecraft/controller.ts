@@ -1,10 +1,11 @@
 import { Controller } from "../../interfaces/controller";
 import { getHypixelRoute } from "./hypixel";
+import { getLandingRoute } from "./landing";
 import { getPlayerRoute } from "./player";
 import { getTextureRoute } from "./texture";
 
 export const MinecraftController = new Controller(
   "/minecraft",
-  [getPlayerRoute, getTextureRoute, getHypixelRoute],
+  [getPlayerRoute, getTextureRoute, getHypixelRoute, getLandingRoute],
   []
 );
