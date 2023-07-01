@@ -26,6 +26,7 @@ export interface Minecraft {
   rewardStreak?: number; // ? because hypixel api is weird
   rewardScore?: number; // ? because hypixel api is weird
   views?: number;
+  viewers: Array<string>;
   karma: number;
   experience: number;
   level: number;

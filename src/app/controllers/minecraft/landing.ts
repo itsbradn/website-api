@@ -38,7 +38,7 @@ export const getLandingRoute: Route = {
         uuid: mostViewedUser.uuid,
         skin: mostViewedUser.skin,
         cape: mostViewedUser.cape,
-        views: mostViewedUser.views ?? 0,
+        views: mostViewedUser.viewers.length ?? 0,
       };
       let recentlyUpdatedUser = users.sort((a, b) => {
         return (

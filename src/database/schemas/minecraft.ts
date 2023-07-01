@@ -34,6 +34,7 @@ const MinecraftSchema = new Schema<Minecraft>({
   rewardStreak: Number,
   rewardScore: Number,
   views: Number,
+  viewers: Array,
   karma: Number,
   experience: Number,
   level: Number,

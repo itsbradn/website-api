@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
 
 export const oneWayHash = async (text: string) => {
   const salt = await bcrypt.genSalt(8);

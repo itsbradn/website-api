@@ -2,6 +2,7 @@ import {
   cacheData,
   checkCacheByPlayername,
   checkCacheByUuid,
+  updateViews,
 } from "../../../database/providers/minecraft";
 import { parseWhole } from "../../../services/number";
 import { Route } from "../../interfaces/route";
@@ -23,7 +24,11 @@ export const getPlayerRoute: Route = {
 
       const cache = await checkCacheByPlayername(player, "mojang");
       if (cache.data) {
-        cache.data.views = parseWhole(cache.data.views) + 1;
+        
+
+        if (!cache.data.viewers.includes(ctx.req.ip)) {
+          updateViews(cache.data, ctx.req.ip);
+        }
         cache.data.save();
       }
       if (!cache.refresh) {
@@ -34,7 +39,7 @@ export const getPlayerRoute: Route = {
             username: cache.data.username,
             skin: cache.data.skin,
             cape: cache.data.cape,
-            views: cache.data.views,
+            views: cache.data.viewers.length,
           },
         };
       }
@@ -110,11 +115,11 @@ export const getPlayerRoute: Route = {
       try {
         const parsed = parseData(uuidData, skinData);
 
-        const data = await cacheData(parsed, "mojang");
+        const data = await cacheData(parsed, "mojang", ctx.req.ip);
 
         return {
           status: 200,
-          body: {...parsed, views: data.views ?? 0},
+          body: {...parsed, views: data.viewers.length ?? 0},
         };
       } catch (e) {
         if (e instanceof Error) {
