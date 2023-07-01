@@ -1,6 +1,7 @@
 import { Document, Types } from "mongoose";
 import { Minecraft } from "../../types/minecraft";
 import { MinecraftModel } from "../schemas/minecraft";
+import { parseWhole } from "../../services/number";
 
 export const cacheData = async (
   data: Partial<Omit<Minecraft, "cacheUntil">>,
@@ -17,6 +18,7 @@ export const cacheData = async (
   else finalData.hypixelCacheUntil = hypixelCacheUntil;
 
   cur.$set(finalData);
+  cur.views = parseWhole(cur.views) + 1;
   return await cur.save();
 };
 

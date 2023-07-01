@@ -3,6 +3,7 @@ import {
   checkCacheByPlayername,
   checkCacheByUuid,
 } from "../../../database/providers/minecraft";
+import { parseWhole } from "../../../services/number";
 import { Route } from "../../interfaces/route";
 
 export const getPlayerRoute: Route = {
@@ -21,6 +22,10 @@ export const getPlayerRoute: Route = {
       }
 
       const cache = await checkCacheByPlayername(player, "mojang");
+      if (cache.data) {
+        cache.data.views = parseWhole(cache.data.views) + 1;
+        cache.data.save();
+      }
       if (!cache.refresh) {
         return {
           status: 200,
