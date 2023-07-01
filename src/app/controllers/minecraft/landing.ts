@@ -85,6 +85,7 @@ export const getLandingRoute: Route = {
         uuid: highestLevelUser.uuid,
         skin: highestLevelUser.skin,
         cape: highestLevelUser.cape,
+        level: highestLevelUser.level,
       };
 
       return {
