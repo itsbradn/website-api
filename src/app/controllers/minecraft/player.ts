@@ -34,6 +34,7 @@ export const getPlayerRoute: Route = {
             username: cache.data.username,
             skin: cache.data.skin,
             cape: cache.data.cape,
+            views: cache.data.views,
           },
         };
       }
@@ -109,11 +110,11 @@ export const getPlayerRoute: Route = {
       try {
         const parsed = parseData(uuidData, skinData);
 
-        cacheData(parsed, "mojang");
+        const data = await cacheData(parsed, "mojang");
 
         return {
           status: 200,
-          body: parsed,
+          body: {...parsed, views: data.views ?? 0},
         };
       } catch (e) {
         if (e instanceof Error) {
