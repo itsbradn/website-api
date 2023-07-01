@@ -21,13 +21,13 @@ export const getPlayerRoute: Route = {
           },
         };
       }
+      let ip = typeof ctx.req.headers["X-Real-IP"] === 'string' ? ctx.req.headers["X-Real-IP"] : "::1"
 
       const cache = await checkCacheByPlayername(player, "mojang");
       if (cache.data) {
         
-
-        if (!cache.data.viewers.includes(ctx.req.ip)) {
-          updateViews(cache.data, ctx.req.ip);
+        if (!cache.data.viewers.includes(ip)) {
+          updateViews(cache.data, ip);
         }
         cache.data.save();
       }
@@ -115,7 +115,7 @@ export const getPlayerRoute: Route = {
       try {
         const parsed = parseData(uuidData, skinData);
 
-        const data = await cacheData(parsed, "mojang", ctx.req.ip);
+        const data = await cacheData(parsed, "mojang", ip);
 
         return {
           status: 200,

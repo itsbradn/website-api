@@ -35,6 +35,7 @@ export const updateViews = async (
     >,
   ip: string
 ) => {
+  
   if (doc.views && doc.views > 0) {
     // Update old docs
     const views: string[] = [];
