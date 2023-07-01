@@ -30,7 +30,7 @@ export const getLandingRoute: Route = {
       const users = await MinecraftModel.find();
 
       let mostViewedUser = users.sort((a, b) => {
-        return parseWhole(b) - parseWhole(a);
+        return parseWhole(b.views) - parseWhole(a.views);
       })[0];
 
       const mostViewed = {
