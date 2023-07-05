@@ -33,6 +33,7 @@ export interface Minecraft {
   expToNextLevel: number;
   levelExpFloor: number;
   levelProgress: number;
+  thumbnailBuffer?: Buffer;
   games: {
     tntGames?: TNTGamesStats;
     bedwars?: BedwarsStats;

@@ -30,6 +30,14 @@ export const getThumbnailRoute: Route = {
         };
       }
 
+      if (cacheData.data.thumbnailBuffer) {
+        return {
+          status: 200,
+          body: cacheData.data.thumbnailBuffer,
+          contentType: "image/png",
+        };
+      }
+
       let html = readFileSync(resolve("./src/app/data/thumbnail.html"), {
         encoding: "utf-8",
       });
@@ -64,6 +72,9 @@ export const getThumbnailRoute: Route = {
       await delay(500);
       const img = await page.screenshot();
       await browser.close();
+
+      cacheData.data.thumbnailBuffer = img;
+      await cacheData.data.save();
 
       return {
         status: 200,

@@ -41,6 +41,7 @@ const MinecraftSchema = new Schema<Minecraft>({
   expToNextLevel: Number,
   levelExpFloor: Number,
   levelProgress: Number,
+  thumbnailBuffer: Types.Buffer,
   games: {
     tntGames: {
       wins: Number,
