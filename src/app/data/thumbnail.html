@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>$$USERNAME$$ | Thumbnail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/gh/itsbradn/mc/src/public/script/vibrant.min.js"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/skinview3d@3.0.0-alpha.1/bundles/skinview3d.bundle.min.js
+"></script>
+<div class="container">
+  <div class="left">
+    <h1>$$USERNAME$$</h1>
+    <h2>$$VIEWS$$ views</h2>
+  </div>
+  <canvas id="skin-container"></canvas>
+</div>
+<script>
+  class StillAnim extends skinview3d.PlayerAnimation {
+    animate(player) {
+      // Multiply by animation's natural speed
+      const t = this.progress * 1;
+      // Leg swing
+      // player.skin.leftLeg.rotation.x = Math.sin(t) * 0.5;
+      // player.skin.rightLeg.rotation.x = Math.sin(t + Math.PI) * 0.5;
+      // Arm swing
+      // player.skin.leftArm.rotation.x = Math.sin(t + Math.PI) * 0.5;
+      // player.skin.rightArm.rotation.x = Math.sin(t) * 0.5;
+      const basicArmRotationZ = Math.PI * 0.005;
+      player.skin.leftArm.rotation.z =
+        Math.cos(t) * 0.03 + basicArmRotationZ;
+      player.skin.rightArm.rotation.z =
+        Math.cos(t + Math.PI) * 0.03 - basicArmRotationZ;
+      // if (this.headBobbing) {
+      //     // Head shaking with different frequency & amplitude
+      //     player.skin.head.rotation.y = Math.sin(t / 4) * 0.2;
+      //     player.skin.head.rotation.x = Math.sin(t / 5) * 0.1;
+      // }
+      // else {
+      //     player.skin.head.rotation.y = 0;
+      //     player.skin.head.rotation.x = 0;
+      // }
+      player.skin.head.rotation.y = 0.4;
+      // player.skin.head.rotation.x = 0.1;
+      // Always add an angle for cape around the x axis
+      const basicCapeRotationX = Math.PI * 0.06;
+      player.cape.rotation.x =
+        Math.sin(t / 1.5) * 0.06 + basicCapeRotationX;
+      player.rotation.y = -0.7;
+    }
+  }
+
+  // if (!mojang.value) throw new Error("no response");
+
+  let skinViewer = new skinview3d.SkinViewer({
+    canvas: document.getElementById("skin-container"),
+    width: 600,
+    height: 1000,
+    skin: $$SKINURL$$,
+    // cape: mojang.value.cape ? mojang.value.cape.url : undefined,
+  });
+
+  skinViewer.controls.enableZoom = false;
+
+  // skinViewer.loadCape("/img/demo-cape.webp", { backEquipment: "elytra" });
+  skinViewer.animation = new StillAnim();
+
+  Vibrant.from($$SKINURL$$)
+    .getPalette()
+    .then(function (palette) {
+      console.log(palette);
+      let vib = palette["Vibrant"].getRgb();
+      document.documentElement.style.setProperty(vib.join(", "));
+    });
+
+</script>
+  </body>
+
+  <style>
+    * {
+      font-family: "Poppins";
+    }
+
+    body {
+      height: 675px;
+      width: 1200px;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --skin-highlight: 255, 0, 0;
+    }
+
+    .container {
+      height: 675px;
+      width: 1200px;
+      color: white;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background: radial-gradient(
+        ellipse at 140% 100%,
+        rgba(var(--skin-highlight), 0.1) 0%,
+        rgba(var(--skin-highlight), 0.1) 55%,
+        rgba(var(--skin-highlight), 0) 90%
+      );
+      background-color: rgb(6, 12, 17);
+      overflow: hidden;
+    }
+    canvas {
+      margin-right: 4rem;
+    }
+    .left {
+      padding: 4rem 4rem;
+    }
+
+    .left > h1 {
+      font-size: 90px;
+      margin: 0;
+    }
+    .left > h2 {
+      font-size: 48px;
+      margin: 0;
+      color: #aeaeb1;
+      font-weight: 400;
+    }
+  </style>
+</html>
