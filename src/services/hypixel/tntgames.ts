@@ -191,8 +191,10 @@ export const formatTntGamesStats = (
           ),
         },
         wizards: {
-          wins: parseWhole(tntStats["tntgames_wizards_wins"]),
-          kills: parseWhole(tntStats["tntgames_tnt_wizards_kills"]),
+          wins: parseWhole(tntStats["wins_capture"]
+          ),
+          kills: parseWhole(tntStats["kills_capture"]
+          ),
           ...calcWizardsOverallStats(tntStats),
           classes: calculateWizardsClasses(tntStats),
         },
