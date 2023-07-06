@@ -63,7 +63,7 @@ export const getWizardsWinsRoute: Route = {
       const users = await MinecraftModel.find({
         "games.tntGames.modes.wizards.wins": { $gt: 0 },
       }).sort({ "games.tntGames.modes.wizards.wins": -1 });
-      for (const topPlayer of users.slice(0, 25)) {
+      for (const topPlayer of users.slice(index, index + 25)) {
         topPlayers.push(parsePlayerLbData(topPlayer));
       }
 
