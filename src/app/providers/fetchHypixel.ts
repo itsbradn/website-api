@@ -13,7 +13,7 @@ import { getMojangPlayerByUUID } from "./fetchMojang";
 export const getHypixelPlayer = async (uuid: string) => {
   const cache = await checkCacheByUuid(uuid, "hypixel");
   let data = cache.data;
-  if (cache.refresh || data === null) { 
+  if (cache.refresh || data === null) {
     const fetchData = await fetchHypixelData(uuid);
     const hypixelReq = fetchData[0];
     const hypixelStatus = fetchData[1];
@@ -57,7 +57,6 @@ export const getHypixelPlayer = async (uuid: string) => {
 
     doc.set(finalData);
     doc.set("hypixelCacheUntil", new Date(Date.now() + 2 * 60 * 1000));
-    doc.save();
 
     data = doc;
   }
@@ -66,9 +65,10 @@ export const getHypixelPlayer = async (uuid: string) => {
     const mojang = await getMojangPlayerByUUID(data.uuid);
     if (mojang) {
       data.set(mojang);
-      await data.save();
     }
   }
+
+  if (data.isModified()) await data.save();
 
   return {
     uuid: data.uuid,

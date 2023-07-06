@@ -11,7 +11,7 @@ export const getWizardsWinsRoute: Route = {
   method: "get",
   actions: [
     async (ctx) => {
-      const page = parseWhole(ctx.req.query.page);
+      const page = parseWhole(ctx.req.query.page) - 1;
 
       const parsePlayerLbData = (data: any) => {
         return {
@@ -42,7 +42,7 @@ export const getWizardsWinsRoute: Route = {
 
         const topPlayerDocs = [];
 
-        for (const topPlayer of topPlayers.slice(0, 25)) {
+        for (const topPlayer of topPlayers) {
           topPlayerDocs.push(
             parsePlayerLbData(await getHypixelPlayer(topPlayer))
           );
@@ -55,10 +55,10 @@ export const getWizardsWinsRoute: Route = {
           },
         };
       }
-      
+
       const topPlayers = [];
 
-      let index = 0 + (page * 25);
+      let index = 0 + page * 25;
 
       const users = await MinecraftModel.find({
         "games.tntGames.modes.wizards.wins": { $gt: 0 },
