@@ -17,6 +17,14 @@ export const getWizardsWinsRoute: Route = {
         return {
           username: data.username,
           wins: data.games.tntGames.modes.wizards.wins,
+          rankData: {
+            rank: data.newPackageRank,
+            monthlyPackageRank: data.monthlyPackageRank,
+            rankPlusColor: data.rankPlusColor,
+            monthlyColor: data.monthlyRankColor,
+            otherRank: data.rank,
+            otherPrefix: data.prefix,
+          }
         };
       };
 
