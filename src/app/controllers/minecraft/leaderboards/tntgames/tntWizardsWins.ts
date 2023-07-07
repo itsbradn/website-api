@@ -12,7 +12,7 @@ export const getWizardsWinsRoute: Route = {
   actions: [
     async (ctx) => {
       const queryPage = parseWhole(ctx.req.query.page)
-      const page = queryPage < 1 ? 0 : queryPage;
+      const page = queryPage < 1 ? 0 : queryPage - 1;
 
       const parsePlayerLbData = (data: any) => {
         return {
