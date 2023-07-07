@@ -11,12 +11,15 @@ export const getWizardsWinsRoute: Route = {
   method: "get",
   actions: [
     async (ctx) => {
-      const page = parseWhole(ctx.req.query.page) - 1;
+      const queryPage = parseWhole(ctx.req.query.page)
+      const page = queryPage < 1 ? 0 : queryPage;
 
       const parsePlayerLbData = (data: any) => {
         return {
           username: data.username,
           wins: data.games.tntGames.modes.wizards.wins,
+          killDeathRatio: data.games.tntGames.modes.wizards.killDeathRatio,
+          killDeathAssistRatio: data.games.tntGames.modes.wizards.killDeathAssistRatio,
           rankData: {
             newPackageRank: data.newPackageRank,
             monthlyPackageRank: data.monthlyPackageRank,

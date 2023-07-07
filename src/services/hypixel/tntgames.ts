@@ -60,6 +60,8 @@ export interface TNTGamesStats {
     };
     wizards: {
       wins: number;
+      killDeathRatio: number;
+      killDeathAssistRatio: number;
       kills: number;
       deaths: number;
       assists: number;
@@ -86,6 +88,8 @@ export const formatTntGamesStats = (
     return {};
 
   const tntStats = hypixelRes["stats"]["TNTGames"];
+
+  const overallWizardsData = calcWizardsOverallStats(tntStats);
 
   return {
     tntGames: {
@@ -191,11 +195,18 @@ export const formatTntGamesStats = (
           ),
         },
         wizards: {
-          wins: parseWhole(tntStats["wins_capture"]
+          wins: parseWhole(tntStats["wins_capture"]),
+          killDeathRatio: parseWinLoss(
+            tntStats["kills_capture"],
+            overallWizardsData.deaths
           ),
-          kills: parseWhole(tntStats["kills_capture"]
+          killDeathAssistRatio: parseWinLoss(
+            parseWhole(tntStats["kills_capture"]) +
+              parseWhole(overallWizardsData.assists),
+            overallWizardsData.deaths
           ),
-          ...calcWizardsOverallStats(tntStats),
+          kills: parseWhole(tntStats["kills_capture"]),
+          ...overallWizardsData,
           classes: calculateWizardsClasses(tntStats),
         },
       },

@@ -98,6 +98,8 @@ const MinecraftSchema = new Schema<Minecraft>({
         },
         wizards: {
           wins: Number,
+          killDeathRatio: Number,
+          killDeathAssistRatio: Number,
           kills: Number,
           deaths: Number,
           assists: Number,
