@@ -89,8 +89,6 @@ export const formatTntGamesStats = (
 
   const tntStats = hypixelRes["stats"]["TNTGames"];
 
-  const overallWizardsData = calcWizardsOverallStats(tntStats);
-
   return {
     tntGames: {
       wins: parseWhole(tntStats["wins"]),
@@ -198,15 +196,16 @@ export const formatTntGamesStats = (
           wins: parseWhole(tntStats["wins_capture"]),
           killDeathRatio: parseWinLoss(
             tntStats["kills_capture"],
-            overallWizardsData.deaths
+            tntStats["deaths_capture"]
           ),
           killDeathAssistRatio: parseWinLoss(
             parseWhole(tntStats["kills_capture"]) +
-              parseWhole(overallWizardsData.assists),
-            overallWizardsData.deaths
+              parseWhole(tntStats["assists_capture"]),
+            tntStats["deaths_capture"]
           ),
           kills: parseWhole(tntStats["kills_capture"]),
-          ...overallWizardsData,
+          deaths: parseWhole(tntStats["deaths_capture"]),
+          assists: parseWhole(tntStats["assists_capture"]),
           classes: calculateWizardsClasses(tntStats),
         },
       },
