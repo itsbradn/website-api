@@ -286,6 +286,11 @@ export const calcWizardsOverallStats = (tntStats: any) => {
     assists += parseWhole(tntStats[wizard + "_assists"]);
   }
 
+  if (deaths == 0 && parseWhole(tntStats["deaths_capture"]) > 0)
+    deaths = parseWhole(tntStats["deaths_capture"]);
+  if (assists == 0 && parseWhole(tntStats["assists_capture"]) > 0)
+    assists = parseWhole(tntStats["assists_capture"]);
+
   return {
     deaths,
     assists,
