@@ -11,3 +11,7 @@ export const parseWinLoss = (num1?: any, num2?: any) => {
   const num = parseWhole(num1) / parseWhole(num2);
   return isNaN(num) ? 0 : num;
 };
+
+export const parsePercentage = (value: any, max: number) => {
+  return ((100 * parseWhole(value)) / max) ?? 0;
+}

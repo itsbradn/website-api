@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import { parseWhole, parseWinLoss } from "../number";
+import { parsePercentage, parseWhole, parseWinLoss } from "../number";
 
 dayjs.extend(duration);
 
@@ -65,6 +65,8 @@ export interface TNTGamesStats {
       kills: number;
       deaths: number;
       assists: number;
+      pointsCaptured: number;
+      prestigeAchievementProgress: number;
       classes: {
         class: string;
         kills: number;
@@ -206,6 +208,8 @@ export const formatTntGamesStats = (
           kills: parseWhole(tntStats["kills_capture"]),
           deaths: parseWhole(tntStats["deaths_capture"]),
           assists: parseWhole(tntStats["assists_capture"]),
+          pointsCaptured: parseWhole(tntStats["points_capture"]),
+          prestigeAchievementProgress: parsePercentage(hypixelRes['achievements']?.tntgames_tnt_wizards_kills, 10000),
           classes: calculateWizardsClasses(tntStats),
         },
       },

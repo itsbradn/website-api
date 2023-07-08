@@ -103,6 +103,8 @@ const MinecraftSchema = new Schema<Minecraft>({
           kills: Number,
           deaths: Number,
           assists: Number,
+          pointsCaptured: Number,
+          prestigeAchievementProgress: Number,
           classes: Array,
         },
       },
