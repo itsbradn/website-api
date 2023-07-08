@@ -18,6 +18,8 @@ export const getWizardsWinsRoute: Route = {
         return {
           username: data.username,
           wins: data.games.tntGames.modes.wizards.wins,
+          kills: data.games.tntGames.modes.wizards.kills,
+          pointsCaptured: data.games.tntGames.modes.wizards.pointsCaptured,
           killDeathRatio: data.games.tntGames.modes.wizards.killDeathRatio,
           killDeathAssistRatio: data.games.tntGames.modes.wizards.killDeathAssistRatio,
           rankData: {
