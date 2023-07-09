@@ -180,11 +180,36 @@ export const updateMapKey = (map: (typeof MAP_KEYS)[number]) => {
   return "widowsDen";
 };
 
+export const formatMapKeyToName = (map: (typeof MAP_KEYS)[number]) => {
+  if (map === "archives") return "Archives";
+  if (map === "cruise_ship") return "Cruise Ship";
+  if (map === "gold_rush") return "Gold Rush";
+  if (map === "hypixel_world") return "Hypixel World";
+  if (map === "library") return "Library";
+  if (map === "transport") return "Transport";
+  if (map === "ancient_tomb") return "Ancient Tomb";
+  if (map === "aquarium") return "Aquarium";
+  if (map === "archives_top_floor") return "Archives Top Floor";
+  if (map === "darkfall") return "Darkfall";
+  if (map === "headquarters") return "Headquarters";
+  if (map === "hollywood") return "Hollywood";
+  if (map === "mountain") return "Mountain";
+  if (map === "san_peratico_v2") return "San Peratico V2";
+  if (map === "skyway_pier") return "Skyway Pier";
+  if (map === "snowyglobe") return "Snowyglobe";
+  if (map === "spooky_mansion") return "Spooky Mansion";
+  if (map === "subway") return "Subway";
+  if (map === "towerfall") return "Towerfall";
+  if (map === "villa") return "Villa";
+  return "Widow's Den";
+};
+
 export const calculateMapStats = (mmStats: any) => {
   let final: Record<string, any> = {};
 
   for (const key of MAP_KEYS) {
     final[updateMapKey(key)] = {
+      name: formatMapKeyToName(key),
       wins: parseWhole(mmStats[formatStatKey("wins", key)]),
       deaths: parseWhole(mmStats[formatStatKey("deaths", key)]),
       suicides: parseWhole(mmStats[formatStatKey("suicides", key)]),
