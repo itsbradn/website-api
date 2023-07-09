@@ -21,11 +21,13 @@ export const getPlayerRoute: Route = {
           },
         };
       }
-      let ip = typeof ctx.req.headers["X-Real-IP"] === 'string' ? ctx.req.headers["X-Real-IP"] : "::1"
+      let ip =
+        typeof ctx.req.headers["X-Real-IP"] === "string"
+          ? ctx.req.headers["X-Real-IP"]
+          : "::1";
 
       const cache = await checkCacheByPlayername(player, "mojang");
       if (cache.data) {
-        
         if (!cache.data.viewers.includes(ip)) {
           updateViews(cache.data, ip);
         }
@@ -40,6 +42,7 @@ export const getPlayerRoute: Route = {
             skin: cache.data.skin,
             cape: cache.data.cape,
             views: cache.data.viewers.length,
+            badges: { friend: cache.data.badges.friend },
           },
         };
       }
@@ -119,7 +122,11 @@ export const getPlayerRoute: Route = {
 
         return {
           status: 200,
-          body: {...parsed, views: data.viewers.length ?? 0},
+          body: {
+            ...parsed,
+            views: data.viewers.length ?? 0,
+            badges: { friend: data.badges.friend },
+          },
         };
       } catch (e) {
         if (e instanceof Error) {

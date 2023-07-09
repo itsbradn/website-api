@@ -19,6 +19,12 @@ const MinecraftSchema = new Schema<Minecraft>({
     id: String,
   },
   online: Boolean,
+  badges: {
+    friend: {
+      type: Boolean,
+      default: false,
+    },
+  },
   currentlyPlaying: String,
   newPackageRank: String,
   monthlyPackageRank: String,

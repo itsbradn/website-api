@@ -74,6 +74,9 @@ export const getHypixelPlayer = async (uuid: string) => {
     uuid: data.uuid,
     username: data.username,
     online: data.online,
+    badges: {
+      friend: data.badges.friend,
+    },
     currentlyPlaying: data.currentlyPlaying,
     newPackageRank: data.newPackageRank,
     monthlyPackageRank: data.monthlyPackageRank,

@@ -11,6 +11,9 @@ export interface Minecraft {
   skin: { url: string; id: string };
   cape: { url: string; id: string };
   online: boolean;
+  badges: {
+    friend: boolean;
+  }
   currentlyPlaying: string | null;
   newPackageRank?: string; // ? because hypixel api is weird
   monthlyPackageRank?: string; // ? because hypixel api is weird
