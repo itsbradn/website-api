@@ -56,6 +56,7 @@ export const getHypixelPlayer = async (uuid: string) => {
     };
 
     doc.set(finalData);
+    doc.markModified('games.murderMystery.maps');
     doc.set("hypixelCacheUntil", new Date(Date.now() + 2 * 60 * 1000));
 
     data = doc;
