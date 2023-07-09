@@ -1,9 +1,12 @@
 import { Controller } from "../../../../interfaces/controller";
 import { HypixelLeaderboardsController } from "../controller";
+import { getWizardsAssistsRoute } from "./tntWizardsAssists";
+import { getWizardsDeathsRoute } from "./tntWizardsDeaths";
+import { getWizardsKillsRoute } from "./tntWizardsKills";
 import { getWizardsWinsRoute } from "./tntWizardsWins";
 
 export const TntGamesLeaderboardsController = new Controller(
   "/tntgames",
-  [getWizardsWinsRoute],
+  [getWizardsWinsRoute, getWizardsAssistsRoute, getWizardsDeathsRoute, getWizardsKillsRoute],
   [],
 );
