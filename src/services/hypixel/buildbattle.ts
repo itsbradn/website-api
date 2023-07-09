@@ -51,18 +51,18 @@ export const formatBuildBattleStats = (
       score: parseWhole(bbStats["score"]),
       modes: {
         soloNormal: {
-          wins: bbStats["wins_solo_normal"],
+          wins: parseWhole(bbStats["wins_solo_normal"]),
         },
         soloPro: {
-          wins: bbStats["wins_solo_pro"],
+          wins: parseWhole(bbStats["wins_solo_pro"]),
         },
         teamsNormal: {
-          wins: bbStats["wins_teams_normal"],
-          highestPoints: bbStats["teams_most_points"],
+          wins: parseWhole(bbStats["wins_teams_normal"]),
+          highestPoints: parseWhole(bbStats["teams_most_points"]),
         },
         guessTheBuild: {
-          wins: bbStats["wins_guess_the_build"],
-          correctGuesses: bbStats["correct_guesses"],
+          wins: parseWhole(bbStats["wins_guess_the_build"]),
+          correctGuesses: parseWhole(bbStats["correct_guesses"]),
         },
       },
     },
