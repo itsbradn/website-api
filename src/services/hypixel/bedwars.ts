@@ -389,8 +389,8 @@ export const calculateModeStats = (bedwars: any) => {
       fallFinalKills: parseWhole(bedwars[mode + "fall_final_kills_bedwars"]),
       fallFinalDeaths: parseWhole(bedwars[mode + "fall_final_deaths_bedwars"]),
       fallFinalKillDeathRatio: parseWinLoss(
-        bedwars[mode + "magic_final_kills_bedwars"],
-        bedwars[mode + "magic_final_deaths_bedwars"]
+        bedwars[mode + "fall_final_kills_bedwars"],
+        bedwars[mode + "fall_final_deaths_bedwars"]
       ),
       voidKills: parseWhole(bedwars[mode + "void_kills_bedwars"]),
       voidDeaths: parseWhole(bedwars[mode + "void_deaths_bedwars"]),
