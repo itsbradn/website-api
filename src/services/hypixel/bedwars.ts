@@ -162,8 +162,8 @@ export const formatBedwarsStats = (
       fallFinalKills: parseWhole(bedwars["fall_final_kills_bedwars"]),
       fallFinalDeaths: parseWhole(bedwars["fall_final_deaths_bedwars"]),
       fallFinalKillDeathRatio: parseWinLoss(
-        bedwars["magic_final_kills_bedwars"],
-        bedwars["magic_final_deaths_bedwars"]
+        bedwars["fall_final_kills_bedwars"],
+        bedwars["fall_final_deaths_bedwars"]
       ),
       voidKills: parseWhole(bedwars["void_kills_bedwars"]),
       voidDeaths: parseWhole(bedwars["void_deaths_bedwars"]),
