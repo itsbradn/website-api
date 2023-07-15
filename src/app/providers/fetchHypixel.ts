@@ -31,7 +31,7 @@ export const getHypixelPlayer = async (uuid: string) => {
 
     let finalData = {
       uuid,
-      newPackageRank: hypixelReq.data.player.newPackageRank,
+      newPackageRank: hypixelReq.data.player.newPackageRank ?? hypixelReq.data.player.packageRank,
       monthlyPackageRank: hypixelReq.data.player.monthlyPackageRank,
       rankPlusColor: hypixelReq.data.player.rankPlusColor,
       monthlyRankColor: hypixelReq.data.player.monthlyRankColor,
