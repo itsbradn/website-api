@@ -19,6 +19,7 @@ export const getWizardsDeathsRoute: Route = {
           username: data.username,
           wins: data.games.tntGames.modes.wizards.wins,
           kills: data.games.tntGames.modes.wizards.kills,
+          deaths: data.games.tntGames.modes.wizards.deaths,
           pointsCaptured: data.games.tntGames.modes.wizards.pointsCaptured,
           killDeathRatio: data.games.tntGames.modes.wizards.killDeathRatio,
           killDeathAssistRatio: data.games.tntGames.modes.wizards.killDeathAssistRatio,
