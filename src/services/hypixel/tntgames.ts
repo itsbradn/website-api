@@ -57,6 +57,12 @@ export interface TNTGamesStats {
       tagKillRatio: number;
       killWinRatio: number;
       winLossRatio: number;
+      perks: {
+        blastProt: number;
+        speedy: number;
+        speedItUp: number;
+        slowItDown: number;
+      };
     };
     wizards: {
       wins: number;
@@ -193,6 +199,12 @@ export const formatTntGamesStats = (
             tntStats["wins_tntag"],
             tntStats["deaths_tntag"]
           ),
+          perks: {
+            blastProt: parseWhole(tntStats["tag_blastprotection"]),
+            speedy: parseWhole(tntStats["new_tntag_speedy"]),
+            speedItUp: parseWhole(tntStats["tag_speeditup"]),
+            slowItDown: parseWhole(tntStats["tag_slowitdown"]),
+          },
         },
         wizards: {
           wins: parseWhole(tntStats["wins_capture"]),
@@ -209,7 +221,10 @@ export const formatTntGamesStats = (
           deaths: parseWhole(tntStats["deaths_capture"]),
           assists: parseWhole(tntStats["assists_capture"]),
           pointsCaptured: parseWhole(tntStats["points_capture"]),
-          prestigeAchievementProgress: parsePercentage(hypixelRes['achievements']?.tntgames_tnt_wizards_kills, 10000),
+          prestigeAchievementProgress: parsePercentage(
+            hypixelRes["achievements"]?.tntgames_tnt_wizards_kills,
+            10000
+          ),
           classes: calculateWizardsClasses(tntStats),
         },
       },

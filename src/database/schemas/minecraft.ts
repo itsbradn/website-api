@@ -101,6 +101,12 @@ const MinecraftSchema = new Schema<Minecraft>({
           tagKillRatio: Number,
           killWinRatio: Number,
           winLossRatio: Number,
+          perks: {
+            blastProt: Number,
+            speedy: Number,
+            speedItUp: Number,
+            slowItDown: Number,
+          },
         },
         wizards: {
           wins: Number,
