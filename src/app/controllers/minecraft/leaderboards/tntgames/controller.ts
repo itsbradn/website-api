@@ -1,5 +1,4 @@
 import { Controller } from "../../../../interfaces/controller";
-import { HypixelLeaderboardsController } from "../controller";
 import { getWizardsAssistsRoute } from "./tntWizardsAssists";
 import { getWizardsDeathsRoute } from "./tntWizardsDeaths";
 import { getWizardsKillsRoute } from "./tntWizardsKills";
