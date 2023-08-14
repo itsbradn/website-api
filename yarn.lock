@@ -199,6 +199,13 @@
   dependencies:
     "@types/koa" "*"
 
+"@types/koa-cors@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@types/koa-cors/-/koa-cors-0.0.2.tgz#369c753fb383640f225579c70a4f9a286b4931b7"
+  integrity sha512-uNaDY26HUVO+2C6arK8ZFODs9mBjYprD8mlvkVe2bYdX9wzEeKtycVXPafXpUkePhMh4sffIMkhRDyedokG/QA==
+  dependencies:
+    "@types/koa" "*"
+
 "@types/koa@*", "@types/koa@^2.13.6":
   version "2.13.6"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.13.6.tgz#6dc14e727baf397310aa6f414ebe5d144983af42"
@@ -1203,6 +1210,11 @@ koa-convert@^2.0.0:
   dependencies:
     co "^4.6.0"
     koa-compose "^4.1.0"
+
+koa-cors@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/koa-cors/-/koa-cors-0.0.16.tgz#98107993a7909e34c042986c5ec6156d77f3432e"
+  integrity sha512-s15knPxe3AJBi2I/ZMPL0pSqU+PLYLO6k5tI0AqClkzavowvocPlSdFUwaHNqtjHMhsGmiq2tiX/25iILJx9YA==
 
 koa@^2.14.2:
   version "2.14.2"

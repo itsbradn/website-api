@@ -4,10 +4,15 @@ import Router from "@koa/router";
 import { AppController } from "./app/controllers/app";
 import bodyParser from "koa-bodyparser";
 import { databaseInit } from "./database/providers/login";
+import cors from 'koa-cors';
+
 
 const main = async () => {
   const app = new Koa();
   app.use(bodyParser());
+  app.use(cors({
+    origin: '*'
+  }))
 
   await databaseInit();
 

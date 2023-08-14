@@ -6,6 +6,7 @@
     "@types/cookies": "^0",
     "@types/koa": "^2.13.6",
     "@types/koa-bodyparser": "^4",
+    "@types/koa-cors": "^0.0.2",
     "@types/koa__router": "^12.0.0",
     "@types/uuid": "^9",
     "nodemon": "^2.0.22",
@@ -22,6 +23,7 @@
     "jose": "^4.14.4",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.0",
+    "koa-cors": "^0.0.16",
     "mongoose": "^7.2.1",
     "puppeteer": "^20.7.4",
     "uuid": "^9.0.0"
@@ -29,6 +31,7 @@
   "scripts": {
     "start": "pm2 startOrRestart ecosystem.config.js --env production",
     "build": "tsc",
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon ./src/index.ts",
+    "deploy": "git pull && yarn install && tsc && pm2 startOrRestart ecosystem.config.js --env production"
   }
 }
