@@ -15,7 +15,9 @@ const main = async () => {
   AppController.loadRoutes(router);
   app.use(router.routes());
 
-  app.listen({ port: process.env.PORT! });
+  app.listen({ port: process.env.PORT! }, () => {
+    console.log(`Now listening on port ${process.env.PORT}`)
+  });
 };
 
 main();
